@@ -34,7 +34,10 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
           )}
           <form action={signInWithGithub} className="mt-6">
             <Button type="submit" size="lg" className="caps h-11 w-full text-xs">
-              <span lang="en">GitHub</span> ile giriş yap
+              {/* One flex item, or the button's gap would open inside the label. */}
+              <span>
+                <span lang="en">GitHub</span> ile giriş yap
+              </span>
             </Button>
           </form>
         </div>

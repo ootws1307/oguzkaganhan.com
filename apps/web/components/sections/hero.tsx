@@ -127,7 +127,8 @@ export async function HeroSection({ section, site, locale }: HeroProps) {
               rel={action.external ? "noreferrer" : undefined}
               className="caps mt-8 inline-flex items-center gap-2 bg-ink px-4 py-2.5 text-xs text-paper transition-colors hover:bg-ink-hover"
             >
-              {action.label}
+              {/* One flex item, or the button's gap would open inside the label. */}
+              <span>{action.label}</span>
               {action.download ? <ArrowDown /> : <ArrowUpRight />}
             </a>
           )}
