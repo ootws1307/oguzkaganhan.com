@@ -1,0 +1,26 @@
+node_modules
+.next
+.turbo
+out
+dist
+*.tsbuildinfo
+next-env.d.ts
+
+.env
+.env*.local
+!.env.example
+
+.DS_Store
+.vercel
+
+# Supabase local
+supabase/.branches
+supabase/.temp
+
+# Local tooling and working notes, not part of the site
+.claude/
+.impeccable/
+DESIGN.md
+PRODUCT.md
+AGENTS.md
+CLAUDE.md

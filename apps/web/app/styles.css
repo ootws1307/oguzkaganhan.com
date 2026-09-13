@@ -1,0 +1,220 @@
+@import "tailwindcss";
+@import "@repo/ui/tokens.css";
+
+@layer base {
+  :root {
+    --nav-h: 3.25rem;
+  }
+
+  html {
+    scroll-padding-top: calc(var(--nav-h) + 1rem);
+  }
+
+  body {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+}
+
+/* The sheet border draws itself once, on first load. */
+.frame-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .frame-line[data-draw] {
+    animation: frame-draw 400ms var(--ease-draw) both;
+  }
+}
+
+@keyframes frame-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+/* Dimension lines draw out from the label with the frame, once. */
+@media (prefers-reduced-motion: no-preference) {
+  .dim-line {
+    animation: 400ms var(--ease-draw) 120ms both;
+  }
+  .dim-line-x {
+    animation-name: dim-draw-x;
+  }
+  .dim-line-y {
+    animation-name: dim-draw-y;
+  }
+  /* Grow outward from the label: tick, line, label, line, tick. */
+  .dim-line:nth-child(2) {
+    transform-origin: right bottom;
+  }
+  .dim-line:nth-child(4) {
+    transform-origin: left top;
+  }
+}
+
+@keyframes dim-draw-x {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes dim-draw-y {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+/* Pulling a sheet: the project title morphs, the new sheet slides up over the set. */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-group(.sheet-title) {
+    animation-duration: 420ms;
+    animation-timing-function: var(--ease-draw);
+  }
+
+  ::view-transition-new(.sheet-page):only-child {
+    animation: sheet-in 420ms var(--ease-draw) both;
+  }
+
+  ::view-transition-old(.sheet-page):only-child {
+    animation: sheet-out 200ms ease-out both;
+  }
+}
+
+@keyframes sheet-in {
+  from {
+    transform: translateY(2.5rem);
+    opacity: 0;
+  }
+}
+
+@keyframes sheet-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/* Drawing notes: Markdown from the admin panel and GitHub READMEs. */
+.notes {
+  color: var(--color-ink);
+  overflow-wrap: anywhere;
+
+  & > * + * {
+    margin-top: 1em;
+  }
+
+  /* Markdown headings are rendered two levels down (h1 → h3, see Markdown). */
+  & :is(h3, h4, h5, h6) {
+    font-family: var(--font-caps);
+    text-transform: uppercase;
+    letter-spacing: 0.035em;
+    font-weight: 600;
+    line-height: 1.1;
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+  }
+
+  & > :is(h3, h4, h5, h6):first-child {
+    margin-top: 0;
+  }
+
+  & h3 {
+    font-size: 1.75rem;
+  }
+  & h4 {
+    font-size: 1.4rem;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid var(--color-rule);
+  }
+  & h5 {
+    font-size: 1.15rem;
+  }
+  & h6 {
+    font-size: 1rem;
+  }
+
+  & a {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--color-ink-faint);
+  }
+  & a:hover {
+    text-decoration-color: var(--color-ink);
+    text-decoration-style: double;
+  }
+
+  & :is(ul, ol) {
+    padding-left: 1.4em;
+  }
+  & ul {
+    list-style: square;
+  }
+  & ol {
+    list-style: decimal;
+  }
+  & li + li {
+    margin-top: 0.3em;
+  }
+  & li::marker {
+    color: var(--color-ink-soft);
+  }
+
+  & :not(pre) > code {
+    font-family: var(--font-mono);
+    font-size: 0.88em;
+    padding: 0.1em 0.35em;
+    background: var(--color-paper-deep);
+    border: 1px solid var(--color-rule);
+  }
+
+  & pre {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    line-height: 1.55;
+    padding: 1rem 1.1rem;
+    overflow-x: auto;
+    background: var(--color-paper-deep);
+    border: 1px solid var(--color-rule);
+  }
+
+  & blockquote {
+    padding-left: 1rem;
+    border-left: 1px solid var(--color-ink);
+    color: var(--color-ink-soft);
+  }
+
+  & img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  & hr {
+    border: 0;
+    border-top: 1px solid var(--color-rule);
+  }
+
+  & table {
+    display: block;
+    overflow-x: auto;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+  }
+  & :is(th, td) {
+    border: 1px solid var(--color-rule);
+    padding: 0.4em 0.7em;
+    text-align: left;
+  }
+  & th {
+    font-family: var(--font-caps);
+    text-transform: uppercase;
+    letter-spacing: 0.035em;
+    font-weight: 600;
+  }
+
+  & input[type="checkbox"] {
+    accent-color: var(--color-ink);
+    margin-right: 0.4em;
+  }
+}

@@ -1,0 +1,147 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@repo/ui/tokens.css";
+
+/*
+ * One theme only. Tailwind's default `dark:` follows prefers-color-scheme, which
+ * would tint shadcn controls on a dark-mode OS. Bind it to a class we never set.
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* shadcn/ui semantic slots, mapped onto the diazo drawing-set palette. One theme only. */
+@theme inline {
+  --font-heading: var(--font-caps);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  /* Drawing-set corners are square. */
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-4xl: 0px;
+}
+
+:root {
+  --background: var(--color-paper);
+  --foreground: var(--color-ink);
+  --card: var(--color-paper);
+  --card-foreground: var(--color-ink);
+  --popover: var(--color-paper);
+  --popover-foreground: var(--color-ink);
+  --primary: var(--color-ink);
+  --primary-foreground: var(--color-paper);
+  --secondary: var(--color-paper-deep);
+  --secondary-foreground: var(--color-ink);
+  --muted: var(--color-paper-deep);
+  --muted-foreground: var(--color-ink-soft);
+  --accent: var(--color-paper-deep);
+  --accent-foreground: var(--color-ink);
+  --destructive: var(--color-redline);
+  --border: var(--color-rule);
+  --input: var(--color-ink-faint);
+  --ring: var(--color-ink);
+  --radius: 0px;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+}
+
+/* Icons are drawn at the sheet frame's 1.5px stroke with square ends. */
+svg.lucide {
+  stroke-width: 1.5;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+/* Markdown preview uses the same notes styling as the public site. */
+.notes {
+  overflow-wrap: anywhere;
+
+  & > * + * {
+    margin-top: 0.9em;
+  }
+  & :is(h1, h2, h3, h4) {
+    font-family: var(--font-caps);
+    text-transform: uppercase;
+    letter-spacing: 0.035em;
+    font-weight: 600;
+    line-height: 1.1;
+    margin-top: 1.6em;
+  }
+  & > :first-child {
+    margin-top: 0;
+  }
+  & h1 {
+    font-size: 1.6rem;
+  }
+  & h2 {
+    font-size: 1.3rem;
+  }
+  & a {
+    text-decoration: underline;
+  }
+  & ul {
+    list-style: square;
+    padding-left: 1.4em;
+  }
+  & ol {
+    list-style: decimal;
+    padding-left: 1.4em;
+  }
+  & :not(pre) > code {
+    font-family: var(--font-mono);
+    font-size: 0.88em;
+    padding: 0.1em 0.3em;
+    background: var(--color-paper-deep);
+  }
+  & pre {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    padding: 0.8rem;
+    overflow-x: auto;
+    background: var(--color-paper-deep);
+    border: 1px solid var(--color-rule);
+  }
+  & blockquote {
+    padding-left: 0.9rem;
+    border-left: 1px solid var(--color-ink);
+    color: var(--color-ink-soft);
+  }
+  & img {
+    max-width: 100%;
+  }
+  & table {
+    border-collapse: collapse;
+  }
+  & :is(th, td) {
+    border: 1px solid var(--color-rule);
+    padding: 0.3em 0.6em;
+  }
+}

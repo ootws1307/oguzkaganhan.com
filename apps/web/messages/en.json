@@ -1,0 +1,58 @@
+{
+  "Meta": {
+    "skipToContent": "Skip to content",
+    "language": "Language"
+  },
+  "Sheet": {
+    "index": "Sheet index",
+    "cover": "Cover",
+    "sheet": "Sheet",
+    "drawnBy": "Drawn by",
+    "role": "Role",
+    "status": "Status",
+    "revision": "Rev.",
+    "detail": "Detail",
+    "downloadCv": "Download CV (PDF)",
+    "neverSynced": "not yet"
+  },
+  "Projects": {
+    "sheetTitle": "Project",
+    "sourceLabel": "Source",
+    "source": "Source code",
+    "live": "Live",
+    "stars": "{count, plural, =0 {no stars} one {# star} other {# stars}}",
+    "starsLabel": "Stars",
+    "pushed": "Last push",
+    "archived": "Archived",
+    "featured": "Featured",
+    "empty": "No published projects yet.",
+    "notes": "Drawing notes",
+    "details": "Detail views",
+    "noNotes": "No notes have been written for this project yet.",
+    "back": "All sheets",
+    "stack": "Built with",
+    "period": "Period",
+    "ongoing": "ongoing",
+    "custom": "Added by hand"
+  },
+  "Experience": {
+    "present": "present",
+    "work": "Work",
+    "education": "Education"
+  },
+  "Contact": {
+    "kinds": {
+      "email": "Email",
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "x": "X",
+      "website": "Website",
+      "other": "Link"
+    }
+  },
+  "NotFound": {
+    "title": "This sheet isn't in the set",
+    "body": "The page you're looking for may have moved or was never drawn.",
+    "home": "Back to the sheet index"
+  }
+}
