@@ -36,7 +36,7 @@ export function SkillsEditor({ initial }: { initial: Group[] }) {
   return (
     <div className="space-y-6">
       {error && (
-        <p role="alert" className="text-sm text-redline">
+        <p role="alert" className="text-sm text-signal">
           {error}
         </p>
       )}
@@ -192,7 +192,7 @@ function GroupBlock({
           type="button"
           onClick={onDelete}
           aria-label="Grubu sil"
-          className="flex size-9 items-center justify-center text-ink-soft hover:text-redline"
+          className="flex size-9 items-center justify-center text-ink-soft hover:text-signal"
         >
           <Trash2 className="size-4" aria-hidden />
         </button>
@@ -231,7 +231,7 @@ function GroupBlock({
                       () => onSkills(previous),
                     );
                   }}
-                  className="flex size-8 items-center justify-center text-ink-soft hover:text-redline"
+                  className="flex size-8 items-center justify-center text-ink-soft hover:text-signal"
                 >
                   <X className="size-3.5" aria-hidden />
                 </button>

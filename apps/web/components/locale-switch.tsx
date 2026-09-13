@@ -11,19 +11,16 @@ export function LocaleSwitch() {
   const t = useTranslations("Meta");
 
   return (
-    <nav aria-label={t("language")} className="caps flex shrink-0 items-center gap-1.5 text-sm">
+    <nav aria-label={t("language")} className="caps flex shrink-0 items-center gap-2 text-xs">
       {routing.locales.map((l, i) => (
         <Fragment key={l}>
           {i > 0 && (
-            <span aria-hidden className="text-ink-soft">
+            <span aria-hidden className="text-rule-strong">
               /
             </span>
           )}
           {l === locale ? (
-            <span
-              aria-current="true"
-              className="text-ink underline decoration-double underline-offset-4"
-            >
+            <span aria-current="true" className="text-ink">
               {l.toUpperCase()}
             </span>
           ) : (
@@ -32,7 +29,7 @@ export function LocaleSwitch() {
               locale={l}
               hrefLang={l}
               lang={l}
-              className="text-ink-soft transition-colors hover:text-ink"
+              className="text-ink-faint transition-colors hover:text-ink"
             >
               {l.toUpperCase()}
             </Link>

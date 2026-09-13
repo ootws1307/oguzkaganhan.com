@@ -150,7 +150,7 @@ export function SectionForm({ sectionKey, initial }: { sectionKey: SectionKey; i
         />
 
         <section aria-labelledby="content-title">
-          <h2 id="content-title" className="caps mb-5 text-xl">
+          <h2 id="content-title" className="mb-5 text-lg font-semibold">
             İçerik
           </h2>
           <LocalizedColumns missing={missing}>
@@ -199,7 +199,7 @@ export function SectionForm({ sectionKey, initial }: { sectionKey: SectionKey; i
 
         {options.length > 0 && (
           <section aria-labelledby="options-title">
-            <h2 id="options-title" className="caps mb-5 text-xl">
+            <h2 id="options-title" className="mb-5 text-lg font-semibold">
               Ayarlar
             </h2>
             <div className="max-w-2xl border-t border-ink">
@@ -234,7 +234,7 @@ export function SectionForm({ sectionKey, initial }: { sectionKey: SectionKey; i
                         type="number"
                         min={0}
                         max={100}
-                        className="tnum w-24"
+                        className="w-24"
                         {...form.register(`options.${o.name}`, { valueAsNumber: true })}
                       />
                     )}

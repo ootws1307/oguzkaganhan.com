@@ -32,7 +32,7 @@ export function ExperienceRegister({ items }: { items: Row[] }) {
   return (
     <div>
       {error && (
-        <p role="alert" className="mb-4 text-sm text-redline">
+        <p role="alert" className="mb-4 text-sm text-signal">
           {error}
         </p>
       )}
@@ -73,7 +73,7 @@ export function ExperienceRegister({ items }: { items: Row[] }) {
                   aria-hidden
                 />
               </span>
-              <span className="tnum text-sm text-ink-soft">
+              <span className="text-sm text-ink-soft">
                 {row.organization} · {monthYear(row.started_on)} –{" "}
                 {row.ended_on ? monthYear(row.ended_on) : "devam ediyor"}
               </span>

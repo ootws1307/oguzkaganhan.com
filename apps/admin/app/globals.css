@@ -9,9 +9,9 @@
  */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* shadcn/ui semantic slots, mapped onto the diazo drawing-set palette. One theme only. */
+/* shadcn/ui semantic slots, mapped onto the report palette. One theme only. */
 @theme inline {
-  --font-heading: var(--font-caps);
+  --font-heading: var(--font-sans);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -30,7 +30,7 @@
   --color-card: var(--card);
   --color-foreground: var(--foreground);
   --color-background: var(--background);
-  /* Drawing-set corners are square. */
+  /* Corners are square everywhere. */
   --radius-sm: 0px;
   --radius-md: 0px;
   --radius-lg: 0px;
@@ -55,7 +55,7 @@
   --muted-foreground: var(--color-ink-soft);
   --accent: var(--color-paper-deep);
   --accent-foreground: var(--color-ink);
-  --destructive: var(--color-redline);
+  --destructive: var(--color-signal);
   --border: var(--color-rule);
   --input: var(--color-ink-faint);
   --ring: var(--color-ink);
@@ -73,7 +73,7 @@
   }
 }
 
-/* Icons are drawn at the sheet frame's 1.5px stroke with square ends. */
+/* Icons share the ruling's stroke: 1.5px with square ends. */
 svg.lucide {
   stroke-width: 1.5;
   stroke-linecap: square;
@@ -88,11 +88,9 @@ svg.lucide {
     margin-top: 0.9em;
   }
   & :is(h1, h2, h3, h4) {
-    font-family: var(--font-caps);
-    text-transform: uppercase;
-    letter-spacing: 0.035em;
     font-weight: 600;
-    line-height: 1.1;
+    line-height: 1.25;
+    letter-spacing: -0.012em;
     margin-top: 1.6em;
   }
   & > :first-child {
@@ -108,12 +106,15 @@ svg.lucide {
     text-decoration: underline;
   }
   & ul {
-    list-style: square;
-    padding-left: 1.4em;
+    list-style: disc;
+    padding-left: 1.3em;
   }
   & ol {
     list-style: decimal;
-    padding-left: 1.4em;
+    padding-left: 1.3em;
+  }
+  & li::marker {
+    color: var(--color-ink-faint);
   }
   & :not(pre) > code {
     font-family: var(--font-mono);
@@ -131,7 +132,7 @@ svg.lucide {
   }
   & blockquote {
     padding-left: 0.9rem;
-    border-left: 1px solid var(--color-ink);
+    border-left: 1px solid var(--color-rule-strong);
     color: var(--color-ink-soft);
   }
   & img {
@@ -141,7 +142,13 @@ svg.lucide {
     border-collapse: collapse;
   }
   & :is(th, td) {
-    border: 1px solid var(--color-rule);
-    padding: 0.3em 0.6em;
+    border-bottom: 1px solid var(--color-rule);
+    padding: 0.4em 1.1em 0.4em 0;
+    text-align: left;
+    vertical-align: top;
+  }
+  & th {
+    font-weight: 600;
+    border-bottom-color: var(--color-ink);
   }
 }

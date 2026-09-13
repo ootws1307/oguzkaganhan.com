@@ -9,7 +9,17 @@ function hrefFor(kind: string, url: string) {
   return url;
 }
 
-export async function ContactSheet({
+const BRAND_KINDS = new Set(["github", "linkedin", "x"]);
+
+/** The address as a reader would write it down: no protocol, no trailing slash. */
+function readable(url: string) {
+  return url
+    .replace(/^mailto:/, "")
+    .replace(/^https?:\/\//, "")
+    .replace(/\/$/, "");
+}
+
+export async function ContactSection({
   section,
   site,
   locale,
@@ -23,9 +33,9 @@ export async function ContactSheet({
   const links = site.contactLinks.filter((l) => section.options.show_email || l.kind !== "email");
 
   return (
-    <div className="grid gap-10 lg:grid-cols-12">
+    <div className="grid gap-x-10 gap-y-8 lg:grid-cols-12">
       {body && (
-        <div className="max-w-[60ch] text-lg lg:col-span-5">
+        <div className="max-w-[58ch] lg:col-span-5">
           <Markdown>{body}</Markdown>
         </div>
       )}
@@ -33,18 +43,31 @@ export async function ContactSheet({
         {links.map((link) => {
           const external = link.kind !== "email";
           return (
-            <li key={link.id} className="border-b border-rule">
+            <li key={link.id}>
               <a
                 href={hrefFor(link.kind, link.url)}
                 target={external ? "_blank" : undefined}
                 rel={external ? "noreferrer" : undefined}
-                className="group -mx-3 grid grid-cols-[6.5rem_minmax(0,1fr)_auto] items-baseline gap-4 px-3 py-4 transition-colors duration-150 hover:bg-paper-deep"
+                className="group grid grid-cols-[6rem_minmax(0,1fr)_auto] items-baseline gap-4 border-b border-rule py-3 transition-colors duration-150 hover:border-ink focus-visible:border-ink"
               >
-                <span className="caps text-sm text-ink-soft">{t(`kinds.${link.kind}`)}</span>
-                <span className="text-lg break-words decoration-1 underline-offset-4 group-hover:underline group-hover:decoration-double">
-                  {link.label}
+                {/* Brand names stay English so Turkish uppercase keeps their "i". */}
+                <span
+                  lang={BRAND_KINDS.has(link.kind) ? "en" : undefined}
+                  className="caps text-[0.6875rem] text-ink-faint"
+                >
+                  {t(`kinds.${link.kind}`)}
                 </span>
-                <ArrowUpRight className="self-center" />
+                <span className="min-w-0">
+                  <span className="break-words decoration-signal decoration-1 underline-offset-[0.2em] group-hover:underline group-focus-visible:underline">
+                    {link.label}
+                  </span>
+                  {readable(link.url) !== link.label && (
+                    <span lang="en" className="block text-[0.9375rem] break-words text-ink-faint">
+                      {readable(link.url)}
+                    </span>
+                  )}
+                </span>
+                <ArrowUpRight className="self-center text-ink-faint transition-colors group-hover:text-signal" />
               </a>
             </li>
           );

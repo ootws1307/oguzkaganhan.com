@@ -81,15 +81,13 @@ export function ProjectsRegister({ projects }: { projects: Row[] }) {
             }`}
           >
             {f.label}
-            {f.id === "hidden" && hiddenCount > 0 && (
-              <span className="tnum ml-1.5">{hiddenCount}</span>
-            )}
+            {f.id === "hidden" && hiddenCount > 0 && <span className="ml-1.5">{hiddenCount}</span>}
           </button>
         ))}
       </div>
 
       {error && (
-        <p role="alert" className="mb-4 text-sm text-redline">
+        <p role="alert" className="mb-4 text-sm text-signal">
           {error}
         </p>
       )}
@@ -118,7 +116,7 @@ export function ProjectsRegister({ projects }: { projects: Row[] }) {
                 <span className="flex items-baseline gap-3">
                   <span
                     lang={row.titleLang}
-                    className="caps truncate text-lg leading-tight group-hover:underline group-hover:decoration-double"
+                    className="truncate text-lg font-medium leading-snug group-hover:underline group-hover:decoration-signal"
                   >
                     {row.title}
                   </span>
@@ -134,7 +132,7 @@ export function ProjectsRegister({ projects }: { projects: Row[] }) {
                     <span>El ile eklendi</span>
                   )}
                   {row.repo?.is_fork && <span>fork</span>}
-                  {row.repo?.removed && <span className="text-redline">GitHub'da artık yok</span>}
+                  {row.repo?.removed && <span className="text-signal">GitHub'da artık yok</span>}
                 </span>
               </Link>
               <button

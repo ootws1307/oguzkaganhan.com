@@ -1,36 +1,38 @@
 {
   "Meta": {
     "skipToContent": "İçeriğe geç",
-    "language": "Dil"
+    "language": "Dil",
+    "sections": "Bölümler",
+    "updated": "Son güncelleme {date}"
   },
-  "Sheet": {
-    "index": "Pafta dizini",
-    "cover": "Kapak",
-    "sheet": "Pafta",
-    "drawnBy": "Çizen",
-    "role": "Rol",
-    "status": "Durum",
-    "revision": "Rev.",
-    "detail": "Detay",
+  "Intro": {
+    "current": "Şu an",
+    "education": "Eğitim",
+    "code": "Kod",
+    "contact": "İletişim",
     "downloadCv": "CV indir (PDF)",
-    "neverSynced": "henüz yok"
+    "writeEmail": "E-posta gönder",
+    "seeCode": "Depoya git"
   },
   "Projects": {
-    "sheetTitle": "Proje",
-    "sourceLabel": "Kaynak",
+    "column": {
+      "project": "Proje",
+      "stack": "Kullanılanlar",
+      "updated": "Güncelleme",
+      "source": "Kaynak"
+    },
     "source": "Kaynak kod",
     "live": "Canlı",
     "stars": "{count, plural, =0 {yıldız yok} other {# yıldız}}",
     "starsLabel": "Yıldız",
-    "pushed": "Son push",
     "archived": "Arşivlendi",
     "featured": "Öne çıkan",
     "empty": "Henüz yayınlanmış proje yok.",
-    "notes": "Çizim notları",
-    "details": "Detay görünüşler",
-    "noNotes": "Bu proje için henüz not yazılmadı.",
-    "back": "Tüm paftalar",
-    "stack": "Kullanılanlar",
+    "images": "Ekran görüntüleri",
+    "notes": "Açıklama",
+    "readme": "README",
+    "noNotes": "Bu proje için henüz açıklama yazılmadı.",
+    "back": "Tüm projeler",
     "period": "Dönem",
     "ongoing": "devam ediyor",
     "custom": "El ile eklendi"
@@ -51,8 +53,8 @@
     }
   },
   "NotFound": {
-    "title": "Bu pafta sette yok",
-    "body": "Aradığın sayfa taşınmış ya da hiç çizilmemiş olabilir.",
-    "home": "Pafta dizinine dön"
+    "title": "Sayfa bulunamadı",
+    "body": "Aradığın sayfa taşınmış ya da hiç var olmamış olabilir.",
+    "home": "Ana sayfaya dön"
   }
 }

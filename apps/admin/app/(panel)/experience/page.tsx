@@ -19,7 +19,10 @@ export default async function ExperiencePage() {
         title="Deneyim ve eğitim"
         description="İş, staj ve eğitim kayıtları. Sitede türüne göre gruplanır, her grup içinde buradaki sırayla görünür."
         actions={
-          <Link href="/experience/new" className={buttonVariants({ className: "caps px-3" })}>
+          <Link
+            href="/experience/new"
+            className={buttonVariants({ className: "caps px-3 text-xs" })}
+          >
             <Plus aria-hidden />
             Yeni kayıt
           </Link>

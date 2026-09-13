@@ -33,7 +33,7 @@ export function SettingsForm({ initial }: { initial: SiteSettingsInput }) {
     <form onSubmit={onSubmit} noValidate>
       <div className="space-y-12 px-5 py-6 sm:px-8">
         <section aria-labelledby="identity-title" className="max-w-3xl space-y-6">
-          <h2 id="identity-title" className="caps text-xl">
+          <h2 id="identity-title" className="text-lg font-semibold">
             Kimlik
           </h2>
           <Field data-invalid={!!errors.site_name || undefined}>
@@ -87,7 +87,7 @@ export function SettingsForm({ initial }: { initial: SiteSettingsInput }) {
         </section>
 
         <section aria-labelledby="cv-title" className="max-w-3xl space-y-6">
-          <h2 id="cv-title" className="caps text-xl">
+          <h2 id="cv-title" className="text-lg font-semibold">
             CV
           </h2>
           <div className="grid gap-6 sm:grid-cols-2">
@@ -114,7 +114,7 @@ export function SettingsForm({ initial }: { initial: SiteSettingsInput }) {
         </section>
 
         <section aria-labelledby="seo-title" className="space-y-6">
-          <h2 id="seo-title" className="caps text-xl">
+          <h2 id="seo-title" className="text-lg font-semibold">
             Arama motorları
           </h2>
           <LocalizedColumns
@@ -141,7 +141,7 @@ export function SettingsForm({ initial }: { initial: SiteSettingsInput }) {
         </section>
 
         <section aria-labelledby="github-title" className="max-w-3xl space-y-6">
-          <h2 id="github-title" className="caps text-xl">
+          <h2 id="github-title" className="text-lg font-semibold">
             GitHub
           </h2>
           <Field data-invalid={!!errors.github_username || undefined}>

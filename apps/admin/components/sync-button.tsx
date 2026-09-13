@@ -35,8 +35,10 @@ export function SyncButton({ lastSync }: { lastSync: string | null }) {
   return (
     <div className="px-4 py-3">
       <dl className="grid grid-cols-[auto_1fr] items-baseline gap-x-3 text-sm">
-        <dt className="caps text-xs text-ink-soft">GitHub</dt>
-        <dd className="tnum text-right">{formatSync(lastSync)}</dd>
+        <dt lang="en" className="caps text-xs text-ink-soft">
+          GitHub
+        </dt>
+        <dd className="text-right">{formatSync(lastSync)}</dd>
       </dl>
       <button
         type="button"
@@ -49,7 +51,7 @@ export function SyncButton({ lastSync }: { lastSync: string | null }) {
       </button>
       <p
         aria-live="polite"
-        className={`mt-2 text-xs ${message?.error ? "text-redline" : "text-ink-soft"}`}
+        className={`mt-2 text-xs ${message?.error ? "text-signal" : "text-ink-soft"}`}
       >
         {message?.text}
       </p>

@@ -152,7 +152,7 @@ export function MediaField({
           <button
             type="button"
             onClick={() => onChange(null)}
-            className="flex size-8 items-center justify-center text-ink-soft hover:text-redline"
+            className="flex size-8 items-center justify-center text-ink-soft hover:text-signal"
             aria-label={`${label}: kaldır`}
           >
             <X className="size-4" aria-hidden />
@@ -167,7 +167,7 @@ export function MediaField({
         onFiles={handle}
       />
       {error && (
-        <p role="alert" className="text-sm text-redline">
+        <p role="alert" className="text-sm text-signal">
           {error}
         </p>
       )}

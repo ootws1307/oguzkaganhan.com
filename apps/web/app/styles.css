@@ -3,99 +3,64 @@
 
 @layer base {
   :root {
-    --nav-h: 3.25rem;
+    --nav-h: 3rem;
+    /* The report's measure: one column of text, one column of facts, wide margins. */
+    --page-max: 76rem;
   }
 
   html {
-    scroll-padding-top: calc(var(--nav-h) + 1rem);
+    scroll-padding-top: calc(var(--nav-h) + 2rem);
   }
 
   body {
     font-size: 1.0625rem;
-    line-height: 1.6;
+    line-height: 1.65;
   }
 }
 
-/* The sheet border draws itself once, on first load. */
-.frame-line {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 0;
+/* The page's one repeated frame: the column every band aligns to. */
+@utility page {
+  margin-inline: auto;
+  max-width: var(--page-max);
+  padding-inline: 1.25rem;
+
+  @media (width >= 40rem) {
+    padding-inline: 2rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 3rem;
+  }
 }
 
+/* Opening a project keeps the title in place while the list falls away. */
 @media (prefers-reduced-motion: no-preference) {
-  .frame-line[data-draw] {
-    animation: frame-draw 400ms var(--ease-draw) both;
+  ::view-transition-group(.project-title) {
+    animation-duration: 260ms;
+    animation-timing-function: var(--ease-out);
+  }
+
+  ::view-transition-new(.page-body):only-child {
+    animation: fade-in 200ms var(--ease-out) both;
+  }
+
+  ::view-transition-old(.page-body):only-child {
+    animation: fade-out 120ms linear both;
   }
 }
 
-@keyframes frame-draw {
+@keyframes fade-in {
   from {
-    stroke-dashoffset: 1;
-  }
-}
-
-/* Dimension lines draw out from the label with the frame, once. */
-@media (prefers-reduced-motion: no-preference) {
-  .dim-line {
-    animation: 400ms var(--ease-draw) 120ms both;
-  }
-  .dim-line-x {
-    animation-name: dim-draw-x;
-  }
-  .dim-line-y {
-    animation-name: dim-draw-y;
-  }
-  /* Grow outward from the label: tick, line, label, line, tick. */
-  .dim-line:nth-child(2) {
-    transform-origin: right bottom;
-  }
-  .dim-line:nth-child(4) {
-    transform-origin: left top;
-  }
-}
-
-@keyframes dim-draw-x {
-  from {
-    transform: scaleX(0);
-  }
-}
-
-@keyframes dim-draw-y {
-  from {
-    transform: scaleY(0);
-  }
-}
-
-/* Pulling a sheet: the project title morphs, the new sheet slides up over the set. */
-@media (prefers-reduced-motion: no-preference) {
-  ::view-transition-group(.sheet-title) {
-    animation-duration: 420ms;
-    animation-timing-function: var(--ease-draw);
-  }
-
-  ::view-transition-new(.sheet-page):only-child {
-    animation: sheet-in 420ms var(--ease-draw) both;
-  }
-
-  ::view-transition-old(.sheet-page):only-child {
-    animation: sheet-out 200ms ease-out both;
-  }
-}
-
-@keyframes sheet-in {
-  from {
-    transform: translateY(2.5rem);
     opacity: 0;
   }
 }
 
-@keyframes sheet-out {
+@keyframes fade-out {
   to {
     opacity: 0;
   }
 }
 
-/* Drawing notes: Markdown from the admin panel and GitHub READMEs. */
+/* Body text of the report: READMEs and text written in the admin panel. */
 .notes {
   color: var(--color-ink);
   overflow-wrap: anywhere;
@@ -104,15 +69,13 @@
     margin-top: 1em;
   }
 
-  /* Markdown headings are rendered two levels down (h1 → h3, see Markdown). */
+  /* Headings are rendered two levels down (h1 → h3, see Markdown). */
   & :is(h3, h4, h5, h6) {
-    font-family: var(--font-caps);
-    text-transform: uppercase;
-    letter-spacing: 0.035em;
     font-weight: 600;
-    line-height: 1.1;
-    margin-top: 2em;
-    margin-bottom: 0.5em;
+    line-height: 1.25;
+    letter-spacing: -0.012em;
+    margin-top: 2.2em;
+    margin-bottom: 0.6em;
   }
 
   & > :is(h3, h4, h5, h6):first-child {
@@ -120,67 +83,60 @@
   }
 
   & h3 {
-    font-size: 1.75rem;
+    font-size: 1.375rem;
   }
   & h4 {
-    font-size: 1.4rem;
-    padding-bottom: 0.3em;
-    border-bottom: 1px solid var(--color-rule);
+    font-size: 1.125rem;
   }
-  & h5 {
-    font-size: 1.15rem;
-  }
-  & h6 {
+  & :is(h5, h6) {
     font-size: 1rem;
   }
 
   & a {
     color: var(--color-ink);
     text-decoration: underline;
-    text-decoration-color: var(--color-ink-faint);
+    text-decoration-color: var(--color-rule-strong);
+    transition: text-decoration-color 120ms var(--ease-out);
   }
   & a:hover {
-    text-decoration-color: var(--color-ink);
-    text-decoration-style: double;
+    text-decoration-color: var(--color-signal);
   }
 
   & :is(ul, ol) {
-    padding-left: 1.4em;
+    padding-left: 1.3em;
   }
   & ul {
-    list-style: square;
+    list-style: disc;
   }
   & ol {
     list-style: decimal;
   }
   & li + li {
-    margin-top: 0.3em;
+    margin-top: 0.35em;
   }
   & li::marker {
-    color: var(--color-ink-soft);
+    color: var(--color-ink-faint);
   }
 
   & :not(pre) > code {
     font-family: var(--font-mono);
-    font-size: 0.88em;
-    padding: 0.1em 0.35em;
+    font-size: 0.875em;
+    padding: 0.1em 0.3em;
     background: var(--color-paper-deep);
-    border: 1px solid var(--color-rule);
   }
 
   & pre {
     font-family: var(--font-mono);
-    font-size: 0.85rem;
-    line-height: 1.55;
-    padding: 1rem 1.1rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    padding: 1rem 1.15rem;
     overflow-x: auto;
     background: var(--color-paper-deep);
-    border: 1px solid var(--color-rule);
   }
 
   & blockquote {
     padding-left: 1rem;
-    border-left: 1px solid var(--color-ink);
+    border-left: 1px solid var(--color-rule-strong);
     color: var(--color-ink-soft);
   }
 
@@ -192,25 +148,24 @@
   & hr {
     border: 0;
     border-top: 1px solid var(--color-rule);
+    margin-block: 2em;
   }
 
   & table {
     display: block;
     overflow-x: auto;
     border-collapse: collapse;
-    font-size: 0.95rem;
-    font-variant-numeric: tabular-nums;
+    font-size: 0.9375rem;
   }
   & :is(th, td) {
-    border: 1px solid var(--color-rule);
-    padding: 0.4em 0.7em;
+    border-bottom: 1px solid var(--color-rule);
+    padding: 0.5em 1.25em 0.5em 0;
     text-align: left;
+    vertical-align: top;
   }
   & th {
-    font-family: var(--font-caps);
-    text-transform: uppercase;
-    letter-spacing: 0.035em;
     font-weight: 600;
+    border-bottom-color: var(--color-ink);
   }
 
   & input[type="checkbox"] {

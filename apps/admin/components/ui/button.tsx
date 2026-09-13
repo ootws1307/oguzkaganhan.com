@@ -3,19 +3,19 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "cn";
 
 const buttonVariants = cva(
-  // Drawing-set controls: square, flat, 2px ink focus outline, no alpha tints (DESIGN.md).
+  // Controls are square and flat, with a 2px ink focus outline and no alpha tints.
   "group/button inline-flex shrink-0 items-center justify-center border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-colors duration-150 outline-none select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-ink-deep",
+        default: "bg-primary text-primary-foreground hover:bg-ink-hover",
         outline:
           "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground",
         secondary:
           "bg-secondary text-secondary-foreground hover:border-border aria-expanded:border-border",
         ghost:
           "hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground",
-        // Redline stays a line: bordered text, never a fill.
+        // The red stays a line: bordered text, never a fill.
         destructive:
           "border-destructive bg-background text-destructive hover:bg-muted focus-visible:outline-destructive",
         link: "text-primary underline-offset-4 hover:underline",

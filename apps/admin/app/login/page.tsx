@@ -23,18 +23,18 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
           <span className="text-ink-soft">oguzkaganhan.com</span>
         </div>
         <div className="p-6">
-          <h1 className="caps text-4xl leading-none">Giriş</h1>
+          <h1 className="text-3xl font-semibold tracking-[-0.02em]">Giriş</h1>
           <p className="mt-3 text-ink-soft">
             Bu panele yalnızca site sahibinin GitHub hesabıyla girilebilir.
           </p>
           {message && (
-            <p role="alert" className="mt-4 border-l border-redline pl-3 text-redline">
+            <p role="alert" className="mt-4 border-l border-signal pl-3 text-signal">
               {message}
             </p>
           )}
           <form action={signInWithGithub} className="mt-6">
-            <Button type="submit" size="lg" className="caps h-11 w-full text-base">
-              GitHub ile giriş yap
+            <Button type="submit" size="lg" className="caps h-11 w-full text-xs">
+              <span lang="en">GitHub</span> ile giriş yap
             </Button>
           </form>
         </div>

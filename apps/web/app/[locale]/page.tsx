@@ -4,18 +4,18 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ViewTransition } from "react";
-import { AboutSheet } from "@/components/sections/about";
-import { ContactSheet } from "@/components/sections/contact";
-import { ExperienceSheet } from "@/components/sections/experience";
-import { HeroSheet } from "@/components/sections/hero";
-import { ProjectsSheet } from "@/components/sections/projects";
-import { SkillsSheet } from "@/components/sections/skills";
-import { Sheet } from "@/components/sheet";
+import { Band } from "@/components/band";
+import { AboutSection } from "@/components/sections/about";
+import { ContactSection } from "@/components/sections/contact";
+import { ExperienceSection } from "@/components/sections/experience";
+import { HeroSection } from "@/components/sections/hero";
+import { ProjectsSection } from "@/components/sections/projects";
+import { SkillsSection } from "@/components/sections/skills";
 import { SiteFooter } from "@/components/site-footer";
-import { SiteNav } from "@/components/site-nav";
+import { SiteHeader } from "@/components/site-header";
 import { loadSite } from "@/lib/data";
-import { sheetNo } from "@/lib/format";
-import { buildSheets, type SheetEntry } from "@/lib/sheets";
+import { formatDate } from "@/lib/format";
+import { buildSections, type SectionEntry } from "@/lib/sections";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;
@@ -43,36 +43,32 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   if (!isLocale(locale)) notFound();
   setRequestLocale(locale);
 
-  const [site, t] = await Promise.all([loadSite(), getTranslations("Sheet")]);
-  const sheets = buildSheets(site, locale, t("cover"));
-  const total = sheets.length;
-  const navItems = sheets.map((s, i) => ({
-    id: s.id,
-    title: s.title,
-    no: String(i + 1).padStart(2, "0"),
-  }));
+  const [site, t] = await Promise.all([loadSite(), getTranslations("Meta")]);
+  const sections = buildSections(site, locale, site.settings.site_name);
+  // The intro is the page's own head; the index lists what follows it.
+  const navItems = sections
+    .filter((entry) => entry.section.key !== "hero")
+    .map((entry) => ({ id: entry.id, title: entry.title }));
 
-  const body = (entry: SheetEntry, sheetNumber: string) => {
+  const body = (entry: SectionEntry) => {
     const { section } = entry;
     switch (section.key) {
       case "hero":
-        return (
-          <HeroSheet section={section} site={site} locale={locale} sheetNumber={sheetNumber} />
-        );
+        return <HeroSection section={section} site={site} locale={locale} />;
       case "about":
-        return <AboutSheet section={section} site={site} locale={locale} />;
+        return <AboutSection section={section} site={site} locale={locale} />;
       case "projects":
-        return <ProjectsSheet section={section} site={site} locale={locale} />;
+        return <ProjectsSection section={section} site={site} locale={locale} />;
       case "experience":
-        return <ExperienceSheet section={section} site={site} locale={locale} />;
+        return <ExperienceSection section={section} site={site} locale={locale} />;
       case "skills":
-        return <SkillsSheet section={section} site={site} locale={locale} />;
+        return <SkillsSection section={section} site={site} locale={locale} />;
       case "contact":
-        return <ContactSheet section={section} site={site} locale={locale} />;
+        return <ContactSection section={section} site={site} locale={locale} />;
     }
   };
 
-  const hero = sheets.find((s) => s.section.key === "hero")?.section;
+  const hero = sections.find((s) => s.section.key === "hero")?.section;
   const person = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -90,28 +86,28 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD built from our own data, with "<" escaped
         dangerouslySetInnerHTML={{ __html: JSON.stringify(person).replace(/</g, "\\u003c") }}
       />
-      <SiteNav siteName={site.settings.site_name} items={navItems} />
-      <ViewTransition default="sheet-page">
-        <main id="main" className="space-y-3 sm:space-y-6">
-          {sheets.map((entry, i) => {
-            const sheetNumber = sheetNo(i + 1, total);
-            return (
-              <Sheet
-                key={entry.id}
-                id={entry.id}
-                title={entry.title}
-                sheetLabel={t("sheet")}
-                sheetNumber={sheetNumber}
-                lead={i === 0}
-                titleAs={entry.section.key === "hero" ? "p" : "h2"}
-              >
-                {body(entry, sheetNumber)}
-              </Sheet>
-            );
-          })}
+      <SiteHeader siteName={site.settings.site_name} items={navItems} navLabel={t("sections")} />
+      <ViewTransition default="page-body">
+        <main id="main" className="space-y-14 sm:space-y-20">
+          {sections.map((entry) =>
+            entry.section.key === "hero" ? (
+              <div key={entry.id}>{body(entry)}</div>
+            ) : (
+              <Band key={entry.id} id={entry.id} title={entry.title}>
+                {body(entry)}
+              </Band>
+            ),
+          )}
         </main>
       </ViewTransition>
-      <SiteFooter siteName={site.settings.site_name} />
+      <SiteFooter
+        siteName={site.settings.site_name}
+        updated={
+          site.settings.last_github_sync_at
+            ? t("updated", { date: formatDate(site.settings.last_github_sync_at, locale) })
+            : undefined
+        }
+      />
     </>
   );
 }

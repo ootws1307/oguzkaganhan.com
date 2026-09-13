@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SyncButton } from "./sync-button";
 
-const SHEETS = [
+const PAGES = [
   { href: "/sections", label: "Bölümler" },
   { href: "/projects", label: "Projeler" },
   { href: "/experience", label: "Deneyim ve eğitim" },
@@ -14,7 +14,7 @@ const SHEETS = [
   { href: "/settings", label: "Site ayarları" },
 ];
 
-/** The admin's sheet index: the same register the public site pins to its top edge. */
+/** The panel index: the same running head the public site pins to its top edge. */
 export function Rail({
   siteName,
   webUrl,
@@ -31,29 +31,27 @@ export function Rail({
   return (
     <aside className="border-b border-ink lg:sticky lg:top-0 lg:flex lg:h-svh lg:flex-col lg:border-r lg:border-b-0">
       <div className="flex items-baseline justify-between gap-3 border-b border-ink px-4 py-3">
-        <span className="caps text-base leading-none">{siteName}</span>
-        <span className="caps text-xs leading-none text-ink-soft">Yönetim</span>
+        <span className="text-[0.9375rem] font-semibold tracking-[-0.01em]">{siteName}</span>
+        <span className="caps text-[0.6875rem] text-ink-faint">Yönetim</span>
       </div>
 
-      <nav aria-label="Pafta dizini" className="overflow-x-auto lg:flex-1 lg:overflow-y-auto">
+      <nav aria-label="Bölümler" className="overflow-x-auto lg:flex-1 lg:overflow-y-auto">
         <ol className="flex whitespace-nowrap lg:block lg:py-2">
-          {SHEETS.map((sheet, i) => {
-            const active = pathname.startsWith(sheet.href);
+          {PAGES.map((page) => {
+            const active = pathname.startsWith(page.href);
             return (
-              <li key={sheet.href}>
+              <li key={page.href}>
                 <Link
-                  href={sheet.href}
+                  href={page.href}
                   aria-current={active ? "page" : undefined}
                   // Inset focus outline: the scrolling strip/rail would clip an outer one.
                   className={`flex items-baseline gap-3 px-4 py-2.5 transition-colors hover:bg-paper-deep focus-visible:-outline-offset-2 ${
                     active ? "bg-paper-deep text-ink" : "text-ink-soft"
                   }`}
                 >
-                  <span className="caps tnum text-xs">{String(i + 1).padStart(2, "0")}</span>
-                  <span
-                    className={`caps text-[0.95rem] ${active ? "underline decoration-double underline-offset-4" : ""}`}
-                  >
-                    {sheet.label}
+                  {/* The order of these pages carries no meaning, so they are not numbered. */}
+                  <span className={`text-[0.9375rem] ${active ? "font-medium" : ""}`}>
+                    {page.label}
                   </span>
                 </Link>
               </li>

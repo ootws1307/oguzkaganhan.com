@@ -1,21 +1,17 @@
 import type { Metadata } from "next";
-import { Sofia_Sans, Sofia_Sans_Extra_Condensed } from "next/font/google";
+import { Archivo } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import "../styles.css";
 
-// One superfamily: the extra-condensed cut is the title-block lettering,
-// the regular cut carries long reading (READMEs, notes). Both cover Turkish.
-const reading = Sofia_Sans({
+// One neutral grotesk carries the whole report: a workhorse with true tabular
+// figures for the tables, full Turkish coverage for the name, and enough weight
+// range that hierarchy never needs a second face.
+const grotesk = Archivo({
   subsets: ["latin", "latin-ext"],
-  variable: "--font-reading",
-  display: "swap",
-});
-const caps = Sofia_Sans_Extra_Condensed({
-  subsets: ["latin", "latin-ext"],
-  variable: "--font-caps-face",
+  variable: "--font-grotesk",
   display: "swap",
 });
 
@@ -34,11 +30,11 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   const t = await getTranslations("Meta");
 
   return (
-    <html lang={locale} className={`${reading.variable} ${caps.variable}`}>
+    <html lang={locale} className={grotesk.variable}>
       <body className="min-h-svh antialiased">
         <a
           href="#main"
-          className="caps sr-only z-50 bg-ink px-4 py-2 text-paper focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
+          className="caps sr-only z-50 bg-ink px-4 py-2 text-sm text-paper focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
         >
           {t("skipToContent")}
         </a>

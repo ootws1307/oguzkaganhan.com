@@ -123,7 +123,7 @@ export function ExperienceForm({
               <Input
                 id="started_on"
                 type="date"
-                className="tnum"
+                className=""
                 aria-invalid={!!errors.started_on || undefined}
                 {...form.register("started_on")}
               />
@@ -134,7 +134,7 @@ export function ExperienceForm({
               <Input
                 id="ended_on"
                 type="date"
-                className="tnum"
+                className=""
                 aria-invalid={!!errors.ended_on || undefined}
                 {...form.register("ended_on")}
               />

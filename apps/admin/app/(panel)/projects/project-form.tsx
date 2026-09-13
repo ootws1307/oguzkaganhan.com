@@ -147,7 +147,7 @@ export function ProjectForm({
         </div>
 
         <section aria-labelledby="text-title" className="space-y-6">
-          <h2 id="text-title" className="caps text-xl">
+          <h2 id="text-title" className="text-lg font-semibold">
             Metin
           </h2>
           <LocalizedColumns
@@ -207,7 +207,7 @@ export function ProjectForm({
         </section>
 
         <section aria-labelledby="meta-title" className="max-w-3xl space-y-6">
-          <h2 id="meta-title" className="caps text-xl">
+          <h2 id="meta-title" className="text-lg font-semibold">
             Bilgiler
           </h2>
           <Field data-invalid={!!errors.slug || undefined}>
@@ -251,19 +251,14 @@ export function ProjectForm({
             </Field>
             <Field>
               <FieldLabel htmlFor="started_on">Başlangıç</FieldLabel>
-              <Input
-                id="started_on"
-                type="date"
-                className="tnum"
-                {...form.register("started_on")}
-              />
+              <Input id="started_on" type="date" className="" {...form.register("started_on")} />
             </Field>
             <Field data-invalid={!!errors.ended_on || undefined}>
               <FieldLabel htmlFor="ended_on">Bitiş</FieldLabel>
               <Input
                 id="ended_on"
                 type="date"
-                className="tnum"
+                className=""
                 aria-invalid={!!errors.ended_on || undefined}
                 {...form.register("ended_on")}
               />

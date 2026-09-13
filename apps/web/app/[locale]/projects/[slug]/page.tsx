@@ -5,17 +5,14 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ViewTransition } from "react";
-import { Frame } from "@/components/frame";
+import { type Fact, Facts } from "@/components/facts";
 import { ArrowUpRight } from "@/components/icons";
 import { Markdown } from "@/components/markdown";
 import { SiteFooter } from "@/components/site-footer";
-import { SiteNav } from "@/components/site-nav";
-import { TitleBlock, TitleBlockAction, type TitleBlockRow } from "@/components/title-block";
+import { SiteHeader } from "@/components/site-header";
 import { loadProject, loadSite } from "@/lib/data";
-import { formatDate, formatMonthYear, isRecent, projectNo, relativeTime } from "@/lib/format";
+import { formatDate, formatMonthYear, isRecent } from "@/lib/format";
 import { langFor } from "@/lib/lang";
-
-const DETAIL_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 export async function generateMetadata({
   params,
@@ -46,31 +43,34 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
   if (!isLocale(locale)) notFound();
   setRequestLocale(locale);
 
-  const [site, data, t, tp] = await Promise.all([
+  const [site, data, t] = await Promise.all([
     loadSite(),
     loadProject(slug),
-    getTranslations("Sheet"),
     getTranslations("Projects"),
   ]);
   if (!data) notFound();
 
   const { project, images } = data;
-  const number = projectNo(site.projects.findIndex((p) => p.id === project.id) + 1);
   const title = pickLocale(project.title, locale) || project.slug;
   const summary = pickLocale(project.summary, locale);
   const notes = pickLocale(project.body_md, locale)?.trim();
+  const notesFromRepo = project.text_origin.body_md[locale] === "repo";
   const pushed = project.github?.pushed_at ?? null;
 
-  const rows: TitleBlockRow[] = [
-    { label: tp("sheetTitle"), value: title },
-    { label: tp("sourceLabel"), value: project.github?.full_name ?? tp("custom") },
-    ...(project.tech.length > 0 ? [{ label: tp("stack"), value: project.tech.join(" · ") }] : []),
+  const facts: Fact[] = [
+    {
+      label: t("column.source"),
+      value: project.github ? <span lang="en">{project.github.full_name}</span> : t("custom"),
+    },
+    ...(project.tech.length > 0
+      ? [{ label: t("column.stack"), value: <span lang="en">{project.tech.join(", ")}</span> }]
+      : []),
     ...(project.started_on
       ? [
           {
-            label: tp("period"),
+            label: t("period"),
             value: `${formatMonthYear(project.started_on, locale)} – ${
-              project.ended_on ? formatMonthYear(project.ended_on, locale) : tp("ongoing")
+              project.ended_on ? formatMonthYear(project.ended_on, locale) : t("ongoing")
             }`,
           },
         ]
@@ -78,159 +78,128 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
     ...(pushed
       ? [
           {
-            label: t("revision"),
-            value: `${formatDate(pushed, locale)} (${relativeTime(pushed, locale)})`,
-            redline: isRecent(pushed),
+            label: t("column.updated"),
+            value: formatDate(pushed, locale),
+            current: isRecent(pushed),
           },
         ]
       : []),
     // Zero stars is left unsaid rather than printed.
     ...(project.github?.stars
-      ? [{ label: tp("starsLabel"), value: tp("stars", { count: project.github.stars }) }]
+      ? [{ label: t("starsLabel"), value: t("stars", { count: project.github.stars }) }]
       : []),
-    { label: t("sheet"), value: number },
   ];
 
   const links = [
-    project.repo_url && { href: project.repo_url, label: tp("source") },
-    project.live_url && { href: project.live_url, label: tp("live") },
+    project.repo_url && { href: project.repo_url, label: t("source") },
+    project.live_url && { href: project.live_url, label: t("live") },
   ].filter((l): l is { href: string; label: string } => !!l);
 
   return (
     <>
-      <SiteNav
+      <SiteHeader
         siteName={site.settings.site_name}
-        back={{ href: "/#projects", label: tp("back") }}
+        back={{ href: "/#projects", label: t("back") }}
+        navLabel={t("back")}
       />
-      <ViewTransition default="sheet-page">
+      <ViewTransition default="page-body">
         <main id="main">
-          <article className="mx-auto w-full max-w-[1480px] px-3 pt-3 sm:px-6 sm:pt-6">
-            <div className="relative border border-rule">
-              <div className="relative text-ink">
-                <Frame />
-                <div className="flex items-baseline justify-between gap-4 border-b border-ink px-4 py-2.5 sm:px-6">
-                  <p className="caps text-lg leading-none sm:text-xl">{tp("sheetTitle")}</p>
-                  <p className="caps tnum shrink-0 text-sm leading-none text-ink-soft">
-                    {t("sheet")} <span className="text-ink">{number}</span>
-                  </p>
-                </div>
+          <article className="page pt-10 pb-4 sm:pt-14">
+            <ViewTransition name={`project-${project.slug}`} share="project-title" default="none">
+              <h1
+                lang={langFor(project.text_origin.title[locale], title)}
+                className="max-w-[20ch] text-[clamp(2rem,4.5vw,3rem)] leading-[1.05] font-semibold tracking-[-0.025em]"
+              >
+                {title}
+              </h1>
+            </ViewTransition>
+            {summary && (
+              <p className="mt-4 max-w-[58ch] text-xl leading-snug text-ink-soft">{summary}</p>
+            )}
 
-                <div className="grid gap-12 px-4 py-8 sm:px-6 sm:py-10 lg:grid-cols-12 lg:gap-10 lg:px-10 lg:py-12">
-                  <div className="min-w-0 lg:col-span-8">
-                    <ViewTransition
-                      name={`title-${project.slug}`}
-                      share="sheet-title"
-                      default="none"
-                    >
-                      <h1
-                        lang={langFor(project.text_origin.title[locale], title)}
-                        className="caps text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.92] font-bold"
-                      >
-                        {title}
-                      </h1>
-                    </ViewTransition>
-                    {summary && (
-                      <p className="mt-5 max-w-[55ch] text-xl leading-snug text-ink-soft">
-                        {summary}
-                      </p>
-                    )}
-
-                    {images.length > 0 && (
-                      <section aria-labelledby="details-title" className="mt-14">
-                        <h2
-                          id="details-title"
-                          className="caps border-b border-ink pb-2 text-sm text-ink-soft"
-                        >
-                          {tp("details")}
-                        </h2>
-                        <div className="mt-6 grid gap-8 sm:grid-cols-2">
-                          {images.map((image, i) => {
-                            const alt = pickLocale(image.alt, locale) ?? "";
-                            const wide = i === 0 && images.length % 2 === 1;
-                            return (
-                              <figure key={image.id} className={wide ? "sm:col-span-2" : undefined}>
-                                <div
-                                  className="relative border border-ink bg-paper-deep"
-                                  style={{
-                                    aspectRatio:
-                                      image.width && image.height
-                                        ? `${image.width} / ${image.height}`
-                                        : "16 / 10",
-                                  }}
-                                >
-                                  <Image
-                                    src={mediaUrl(image.path)}
-                                    alt={alt}
-                                    fill
-                                    sizes={
-                                      wide
-                                        ? "(min-width: 1024px) 60vw, 95vw"
-                                        : "(min-width: 1024px) 30vw, 95vw"
-                                    }
-                                    className="object-contain"
-                                  />
-                                </div>
-                                <figcaption className="mt-2 flex gap-3 text-sm text-ink-soft">
-                                  <span className="caps shrink-0 text-ink">
-                                    {t("detail")} {DETAIL_LETTERS[i % DETAIL_LETTERS.length]}
-                                  </span>
-                                  {alt}
-                                </figcaption>
-                              </figure>
-                            );
-                          })}
-                        </div>
-                      </section>
-                    )}
-
-                    <section aria-labelledby="notes-title" className="mt-14">
-                      <h2
-                        id="notes-title"
-                        className="caps border-b border-ink pb-2 text-sm text-ink-soft"
-                      >
-                        {tp("notes")}
-                      </h2>
-                      <div className="mt-6 max-w-[72ch]">
-                        {notes ? (
-                          <Markdown
-                            repo={project.github?.full_name}
-                            lang={langFor(project.text_origin.body_md[locale], notes)}
+            <div className="mt-12 grid gap-x-10 gap-y-12 lg:grid-cols-12">
+              <div className="min-w-0 lg:col-span-8">
+                {images.length > 0 && (
+                  <section aria-label={t("images")} className="mb-12 space-y-8">
+                    {images.map((image) => {
+                      const alt = pickLocale(image.alt, locale) ?? "";
+                      return (
+                        <figure key={image.id}>
+                          <div
+                            className="relative border border-rule bg-paper-deep"
+                            style={{
+                              aspectRatio:
+                                image.width && image.height
+                                  ? `${image.width} / ${image.height}`
+                                  : "16 / 10",
+                            }}
                           >
-                            {notes}
-                          </Markdown>
-                        ) : (
-                          <p className="text-ink-soft">{tp("noNotes")}</p>
-                        )}
-                      </div>
-                    </section>
-                  </div>
+                            <Image
+                              src={mediaUrl(image.path)}
+                              alt={alt}
+                              fill
+                              sizes="(min-width: 1024px) 60vw, 95vw"
+                              className="object-contain"
+                            />
+                          </div>
+                          {alt && (
+                            <figcaption className="mt-2 text-[0.9375rem] text-ink-faint">
+                              {alt}
+                            </figcaption>
+                          )}
+                        </figure>
+                      );
+                    })}
+                  </section>
+                )}
 
-                  <aside className="lg:col-span-4">
-                    <div className="lg:sticky lg:top-[calc(var(--nav-h)+1.5rem)]">
-                      <TitleBlock
-                        mark={
-                          <span className="caps tnum text-xl leading-none sm:text-2xl">
-                            {number}
-                          </span>
-                        }
-                        rows={rows}
-                        action={
-                          links.length > 0 ? (
-                            <div className="grid divide-y divide-paper/30">
-                              {links.map((link) => (
-                                <TitleBlockAction key={link.href} href={link.href} external>
-                                  {link.label}
-                                  <ArrowUpRight />
-                                </TitleBlockAction>
-                              ))}
-                            </div>
-                          ) : undefined
-                        }
-                      />
-                    </div>
-                  </aside>
-                </div>
+                <section aria-labelledby="notes-title">
+                  <h2
+                    id="notes-title"
+                    className="caps border-b border-ink pb-2 text-[0.6875rem] text-ink-faint"
+                  >
+                    {notesFromRepo ? t("readme") : t("notes")}
+                  </h2>
+                  <div className="mt-6 max-w-[34rem]">
+                    {notes ? (
+                      <Markdown
+                        repo={project.github?.full_name}
+                        lang={langFor(project.text_origin.body_md[locale], notes)}
+                      >
+                        {notes}
+                      </Markdown>
+                    ) : (
+                      <p className="text-ink-soft">{t("noNotes")}</p>
+                    )}
+                  </div>
+                </section>
               </div>
+
+              <aside className="lg:col-span-4">
+                <div className="lg:sticky lg:top-[calc(var(--nav-h)+2rem)]">
+                  <Facts items={facts} />
+                  {links.length > 0 && (
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      {links.map((link, i) => (
+                        <a
+                          key={link.href}
+                          href={link.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={`caps inline-flex items-center gap-2 px-4 py-2.5 text-xs transition-colors ${
+                            i === 0
+                              ? "bg-ink text-paper hover:bg-ink-hover"
+                              : "border border-rule-strong text-ink hover:border-ink"
+                          }`}
+                        >
+                          {link.label}
+                          <ArrowUpRight />
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </aside>
             </div>
           </article>
         </main>

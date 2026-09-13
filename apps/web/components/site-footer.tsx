@@ -1,12 +1,12 @@
-/** The set closes on a plain colophon strip. */
-export function SiteFooter({ siteName }: { siteName: string }) {
+/** The colophon: who published this page, and when it was last set. */
+export function SiteFooter({ siteName, updated }: { siteName: string; updated?: string }) {
   return (
-    <footer className="mx-auto max-w-[1480px] px-3 pt-6 pb-8 sm:px-6">
-      <div className="caps tnum flex flex-wrap justify-between gap-3 border-t border-rule pt-3 text-xs text-ink-soft">
+    <footer className="page pt-10 pb-12">
+      <div className="flex flex-wrap justify-between gap-3 border-t border-rule pt-3 text-xs text-ink-faint">
         <span>
           © {new Date().getFullYear()} {siteName}
         </span>
-        <span>oguzkaganhan.com</span>
+        {updated && <span>{updated}</span>}
       </div>
     </footer>
   );

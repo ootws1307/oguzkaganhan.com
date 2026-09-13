@@ -1,28 +1,28 @@
 /*
- * Diazo whiteprint: the one visual system shared by the public site and the admin.
- * Pale cool paper, one blue-violet ink in three weights, a tonal ramp from that
- * ink only, and a vermilion redline reserved for "new / revised / needs attention".
+ * The report: the one visual system shared by the public site and the admin.
+ * Near-white paper, near-black text, hairline rules, and a single red that means
+ * "current, live, or needs your eye". One neutral grotesk, all figures tabular.
  * One theme; there is no dark variant.
  *
  * Import after `@import "tailwindcss";`.
  */
 @theme {
-  --color-paper: #e8edeb;
-  --color-paper-deep: #dde4e2;
-  --color-ink: #27356f;
-  --color-ink-deep: #1c2757;
-  --color-ink-soft: #4a5889;
-  --color-ink-faint: #7382a6;
-  --color-rule: #b9c4ca;
-  --color-redline: #b4452e;
-  /* Behind a greyscale photo in multiply blend, so it prints in the ink's tone. */
-  --color-photo-ground: #c3cce2;
+  --color-paper: #fafaf9;
+  --color-paper-deep: #f0f0ed;
+  --color-ink: #101315;
+  --color-ink-soft: #4e5459;
+  /* Carries small labels and captions, so it clears AA against paper (4.5:1). */
+  --color-ink-faint: #5f656a;
+  --color-rule: #dededa;
+  --color-rule-strong: #b9b9b4;
+  /* Hover state of a solid ink fill: the surface lifts a step, never turns red. */
+  --color-ink-hover: #33383c;
+  --color-signal: #b3231f;
 
-  --font-sans: var(--font-reading), ui-sans-serif, system-ui, sans-serif;
-  --font-caps: var(--font-caps-face), "Arial Narrow", ui-sans-serif, sans-serif;
+  --font-sans: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace;
 
-  --ease-draw: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
 }
 
 @layer base {
@@ -32,7 +32,7 @@
 
   html {
     background: var(--color-paper);
-    scrollbar-color: var(--color-ink-faint) var(--color-paper);
+    scrollbar-color: var(--color-rule-strong) var(--color-paper);
     -webkit-text-size-adjust: 100%;
   }
 
@@ -40,6 +40,8 @@
     background: var(--color-paper);
     color: var(--color-ink);
     font-family: var(--font-sans);
+    /* A report reads in one voice: figures line up in every column by default. */
+    font-variant-numeric: tabular-nums lining-nums;
     text-rendering: optimizeLegibility;
   }
 
@@ -50,11 +52,11 @@
 
   :focus-visible {
     outline: 2px solid var(--color-ink);
-    outline-offset: 3px;
+    outline-offset: 2px;
   }
 
   a {
-    text-underline-offset: 0.22em;
+    text-underline-offset: 0.18em;
     text-decoration-thickness: 1px;
   }
 
@@ -62,17 +64,24 @@
   h2,
   h3 {
     text-wrap: balance;
+    letter-spacing: -0.015em;
+  }
+
+  caption,
+  th {
+    text-align: left;
   }
 }
 
-/* Condensed technical lettering, as on a title block. */
+/* The ruled label that names a column, a field or a section. Size is set where
+   it is used, so a label can be 0.75rem in a table head and 0.875rem in a rail. */
 @utility caps {
-  font-family: var(--font-caps);
   text-transform: uppercase;
-  letter-spacing: 0.035em;
+  letter-spacing: 0.08em;
   font-weight: 600;
 }
 
-@utility tnum {
-  font-variant-numeric: tabular-nums lining-nums;
+/* Proportional figures, for the rare number that sits inside a sentence. */
+@utility pnum {
+  font-variant-numeric: proportional-nums lining-nums;
 }

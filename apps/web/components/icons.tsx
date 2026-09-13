@@ -1,4 +1,4 @@
-// Drawn in the sheet's own line weight (1.5) so icons read as part of the linework.
+// One stroke weight (1.5) and square ends, so icons read as part of the ruling.
 // Decorative: every icon sits next to a text label.
 type IconProps = { className?: string };
 

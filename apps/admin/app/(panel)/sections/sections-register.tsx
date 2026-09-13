@@ -56,7 +56,7 @@ export function SectionsRegister({ sections }: { sections: Row[] }) {
   return (
     <div>
       {error && (
-        <p role="alert" className="mb-4 text-sm text-redline">
+        <p role="alert" className="mb-4 text-sm text-signal">
           {error}
         </p>
       )}
@@ -70,14 +70,14 @@ export function SectionsRegister({ sections }: { sections: Row[] }) {
           return (
             <div className="flex items-center gap-2 border-b border-rule py-1.5 pr-2">
               {handle}
-              <span className="caps tnum w-8 text-sm text-ink-soft">
+              <span className="caps w-8 text-sm text-ink-soft">
                 {String(index + 1).padStart(2, "0")}
               </span>
               <Link
                 href={`/sections/${row.key}`}
                 className="group flex min-w-0 flex-1 items-baseline gap-3 py-2"
               >
-                <span className="caps text-lg leading-none group-hover:underline group-hover:decoration-double">
+                <span className="text-lg font-medium leading-snug group-hover:underline group-hover:decoration-signal">
                   {SECTION_LABELS[row.key]}
                 </span>
                 {row.title && <span className="truncate text-sm text-ink-soft">“{row.title}”</span>}

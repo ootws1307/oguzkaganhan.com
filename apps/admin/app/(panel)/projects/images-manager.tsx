@@ -65,7 +65,7 @@ export function ImagesManager({
   return (
     <section aria-labelledby="images-title" className="max-w-4xl space-y-5">
       <div>
-        <h2 id="images-title" className="caps text-xl">
+        <h2 id="images-title" className="text-lg font-semibold">
           Ekran görüntüleri
         </h2>
         <p className="mt-1 text-sm text-ink-soft">
@@ -142,7 +142,7 @@ export function ImagesManager({
                       }
                     });
                   }}
-                  className="mt-5 flex size-9 shrink-0 items-center justify-center text-ink-soft hover:text-redline"
+                  className="mt-5 flex size-9 shrink-0 items-center justify-center text-ink-soft hover:text-signal"
                 >
                   <Trash2 className="size-4" aria-hidden />
                 </button>
@@ -161,7 +161,7 @@ export function ImagesManager({
         onFiles={upload}
       />
       {error && (
-        <p role="alert" className="text-sm text-redline">
+        <p role="alert" className="text-sm text-signal">
           {error}
         </p>
       )}

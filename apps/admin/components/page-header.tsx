@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-/** A sheet's header strip: title on the left, actions on the right. */
+/** A page's header strip: title on the left, actions on the right. */
 export function PageHeader({
   title,
   titleLang,
@@ -20,7 +20,7 @@ export function PageHeader({
       <div className="flex flex-wrap items-end justify-between gap-4 px-5 pt-6 pb-4 sm:px-8">
         <div className="min-w-0">
           {back && <div className="mb-3">{back}</div>}
-          <h1 lang={titleLang} className="caps text-3xl leading-none sm:text-4xl">
+          <h1 lang={titleLang} className="text-3xl font-semibold tracking-[-0.02em]">
             {title}
           </h1>
           {description && <p className="mt-2 max-w-[70ch] text-ink-soft">{description}</p>}

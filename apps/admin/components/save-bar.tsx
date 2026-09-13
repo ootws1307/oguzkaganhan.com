@@ -34,9 +34,9 @@ export function SaveBar({
 
   if (!dirty && status.kind === "idle") return null;
 
-  let message: { text: string; tone: "redline" | "soft" };
-  if (status.kind === "error") message = { text: status.message, tone: "redline" };
-  else if (dirty) message = { text: "Kaydedilmemiş değişiklikler var.", tone: "redline" };
+  let message: { text: string; tone: "signal" | "soft" };
+  if (status.kind === "error") message = { text: status.message, tone: "signal" };
+  else if (dirty) message = { text: "Kaydedilmemiş değişiklikler var.", tone: "signal" };
   else if (status.kind === "saved" && status.revalidated)
     message = { text: "Kaydedildi. Site güncellendi.", tone: "soft" };
   else
@@ -50,7 +50,7 @@ export function SaveBar({
       <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-3 sm:px-8">
         <p
           role={status.kind === "error" ? "alert" : "status"}
-          className={`text-sm ${message.tone === "redline" ? "text-redline" : "text-ink-soft"}`}
+          className={`text-sm ${message.tone === "signal" ? "text-signal" : "text-ink-soft"}`}
         >
           {message.text}
         </p>
@@ -59,7 +59,7 @@ export function SaveBar({
             <Button type="button" variant="outline" onClick={onReset} disabled={saving}>
               Geri al
             </Button>
-            <Button type="submit" disabled={saving} className="caps px-4">
+            <Button type="submit" disabled={saving} className="caps px-4 text-xs">
               {saving ? "Kaydediliyor…" : submitLabel}
             </Button>
           </div>

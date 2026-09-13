@@ -1,13 +1,13 @@
 import { type Locale, type Localized, pickLocale, type Section } from "@repo/content";
 import type { SiteData } from "./data";
 
-export type SheetEntry = { section: Section; id: string; title: string };
+export type SectionEntry = { section: Section; id: string; title: string };
 
 function hasBody(content: Localized<{ body_md: string }>, locale: Locale): boolean {
   return !!pickLocale(content, locale)?.body_md.trim();
 }
 
-/** A sheet is drawn only when it has something on it; the set renumbers around gaps. */
+/** A section is printed only when it has something to report. */
 function hasContent(section: Section, site: SiteData, locale: Locale): boolean {
   switch (section.key) {
     case "hero":
@@ -29,7 +29,7 @@ function hasContent(section: Section, site: SiteData, locale: Locale): boolean {
   }
 }
 
-export function buildSheets(site: SiteData, locale: Locale, coverTitle: string): SheetEntry[] {
+export function buildSections(site: SiteData, locale: Locale, introTitle: string): SectionEntry[] {
   return site.sections
     .filter((section) => section.is_visible && hasContent(section, site, locale))
     .map((section) => ({
@@ -37,7 +37,7 @@ export function buildSheets(site: SiteData, locale: Locale, coverTitle: string):
       id: section.key,
       title:
         section.key === "hero"
-          ? coverTitle
+          ? introTitle
           : (pickLocale(section.content as Localized<{ title: string }>, locale)?.title ?? ""),
     }));
 }

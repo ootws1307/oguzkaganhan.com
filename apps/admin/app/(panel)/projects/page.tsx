@@ -43,7 +43,7 @@ export default async function ProjectsPage() {
         title="Projeler"
         description="GitHub'dan senkronize edilen repolar gizli olarak gelir. Sitede göstermek istediklerini aç, sırala, öne çıkar."
         actions={
-          <Link href="/projects/new" className={buttonVariants({ className: "caps px-3" })}>
+          <Link href="/projects/new" className={buttonVariants({ className: "caps px-3 text-xs" })}>
             <Plus aria-hidden />
             Yeni proje
           </Link>

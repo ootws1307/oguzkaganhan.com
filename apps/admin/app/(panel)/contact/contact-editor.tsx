@@ -47,7 +47,7 @@ export function ContactEditor({ initial }: { initial: Link[] }) {
   return (
     <div className="space-y-4">
       {error && (
-        <p role="alert" className="text-sm text-redline">
+        <p role="alert" className="text-sm text-signal">
           {error}
         </p>
       )}
@@ -122,7 +122,7 @@ export function ContactEditor({ initial }: { initial: Link[] }) {
                   }
                 });
               }}
-              className="flex size-9 items-center justify-center text-ink-soft hover:text-redline"
+              className="flex size-9 items-center justify-center text-ink-soft hover:text-signal"
             >
               <Trash2 className="size-4" aria-hidden />
             </button>
