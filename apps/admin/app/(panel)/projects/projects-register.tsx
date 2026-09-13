@@ -179,7 +179,7 @@ export function ProjectsRegister({ projects }: { projects: Row[] }) {
         />
       )}
       <p className="mt-4 text-sm text-ink-soft">
-        Yıldız: kapakta ve listenin başında öne çıkar. Sitede ilk öne çıkan proje kapak paftasında
+        Yıldız: kapakta ve listenin başında öne çıkar. Sitede ilk öne çıkan proje listenin başında
         çizilir.
       </p>
     </div>

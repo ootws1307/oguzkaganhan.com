@@ -14,7 +14,7 @@ export default async function SectionsPage() {
     <>
       <PageHeader
         title="Bölümler"
-        description="Ana sayfadaki paftalar. Sürükleyerek sırala, anahtarla gizle/göster, içeriği düzenlemek için bir satırı aç."
+        description="Ana sayfadaki bölümler. Sürükleyerek sırala, anahtarla gizle/göster, içeriği düzenlemek için bir satırı aç."
       />
       <div className="px-5 py-6 sm:px-8">
         <SectionsRegister

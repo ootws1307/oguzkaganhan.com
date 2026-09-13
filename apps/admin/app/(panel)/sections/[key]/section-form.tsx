@@ -36,7 +36,7 @@ const CONTENT_FIELDS: Record<SectionKey, TextField[]> = {
       name: "status",
       label: "Durum notu",
       kind: "text",
-      hint: "Ör. Staj için müsait. Antette kırmızıyla görünür.",
+      hint: "Ör. Staj için müsait. Girişte kırmızıyla görünür.",
     },
   ],
   about: [
@@ -65,7 +65,7 @@ const OPTION_FIELDS: Record<SectionKey, OptionField[]> = {
   hero: [
     {
       name: "show_photo",
-      label: "Profil fotoğrafını antette göster",
+      label: "Profil fotoğrafını girişte göster",
       kind: "switch",
       hint: "Fotoğraf Site ayarlarından yüklenir.",
     },

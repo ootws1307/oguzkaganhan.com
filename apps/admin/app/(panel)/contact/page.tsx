@@ -14,7 +14,7 @@ export default async function ContactPage() {
     <>
       <PageHeader
         title="İletişim"
-        description="Sitenin son paftasındaki bağlantılar. İlk e-posta dışı bağlantı, CV yoksa kapaktaki antette de kullanılır."
+        description="Sitenin son bölümündeki bağlantılar. CV yüklenmemişse girişteki buton ilk bağlantıya gider."
       />
       <div className="px-5 py-6 sm:px-8">
         <ContactEditor initial={links} />

@@ -278,7 +278,7 @@ export function ProjectForm({
                   folder="projects/covers"
                   kind="image"
                   label="Kapak görseli yükle"
-                  hint="Kapak paftasında ve paylaşım önizlemesinde kullanılır."
+                  hint="Paylaşım önizlemesinde kullanılır."
                 />
               )}
             />

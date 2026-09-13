@@ -43,9 +43,7 @@ export function SettingsForm({ initial }: { initial: SiteSettingsInput }) {
               aria-invalid={!!errors.site_name || undefined}
               {...form.register("site_name")}
             />
-            <FieldDescription>
-              Dizin şeridinde ve antetin "Çizen" satırında görünür.
-            </FieldDescription>
+            <FieldDescription>Üst şeritte ve künye tablosunda görünür.</FieldDescription>
             <FieldError errors={[errors.site_name]} />
           </Field>
           <div className="grid gap-6 sm:grid-cols-2">
@@ -61,7 +59,7 @@ export function SettingsForm({ initial }: { initial: SiteSettingsInput }) {
                     folder="site"
                     kind="image"
                     label="Fotoğraf yükle"
-                    hint="Sitede mürekkep tonunda basılır."
+                    hint="Girişte künye tablosunun üstünde görünür."
                   />
                 )}
               />
