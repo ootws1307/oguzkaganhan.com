@@ -62,24 +62,7 @@ export async function HeroSection({ section, site, locale }: HeroProps) {
           },
         ]
       : []),
-    ...(github
-      ? [
-          {
-            label: t("code"),
-            value: (
-              <a
-                href={github.url}
-                target="_blank"
-                rel="noreferrer"
-                lang="en"
-                className="underline decoration-rule-strong transition-colors hover:decoration-signal"
-              >
-                {github.label}
-              </a>
-            ),
-          },
-        ]
-      : []),
+    // No GitHub row here: the action button and the contact section both lead there.
     ...(email
       ? [
           {
@@ -107,7 +90,13 @@ export async function HeroSection({ section, site, locale }: HeroProps) {
           external: false,
         }
       : github
-        ? { href: github.url, label: t("seeCode"), download: false, external: true }
+        ? {
+            href: github.url,
+            // The brand keeps its own language, or Turkish uppercase would print "GİTHUB".
+            label: t.rich("seeCode", { brand: (chunks) => <span lang="en">{chunks}</span> }),
+            download: false,
+            external: true,
+          }
         : null;
 
   return (

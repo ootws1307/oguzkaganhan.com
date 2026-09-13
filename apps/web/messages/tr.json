@@ -8,11 +8,10 @@
   "Intro": {
     "current": "Şu an",
     "education": "Eğitim",
-    "code": "Kod",
     "contact": "İletişim",
     "downloadCv": "CV indir (PDF)",
     "writeEmail": "E-posta gönder",
-    "seeCode": "Depoya git"
+    "seeCode": "<brand>GitHub</brand>’a git"
   },
   "Projects": {
     "column": {

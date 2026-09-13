@@ -8,11 +8,10 @@
   "Intro": {
     "current": "Now",
     "education": "Education",
-    "code": "Code",
     "contact": "Contact",
     "downloadCv": "Download CV (PDF)",
     "writeEmail": "Send an email",
-    "seeCode": "Go to GitHub"
+    "seeCode": "Go to <brand>GitHub</brand>"
   },
   "Projects": {
     "column": {
